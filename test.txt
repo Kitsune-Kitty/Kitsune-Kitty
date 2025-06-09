@@ -1,0 +1,26 @@
+Ein Test ist ein methodischer Versuch, mit dem festgestellt werden soll, ob Eigenschaften oder Leistung einer Sache, einer Person oder einer Hypothese den Erwartungen entsprechen.[1][2] Er unterscheidet sich vom Experiment dadurch, dass es beim Test eine Erwartung gibt, die belegt oder widerlegt werden soll, während das Ergebnis beim Experiment offen ist oder nur vermutet werden kann.[3]
+
+Mit Testung wird das Testen, das Getestetwerden bezeichnet,[4] die Untersuchung eines Gegenstandes oder Sachverhaltes, zum Beispiel auf Richtigkeit oder Funktionsfähigkeit.
+
+Das Wort „Test“ kommt von altfranzösisch test ‚Tiegel‘, ‚Topf [für alchemistische Versuche]‘ bzw. von lateinisch testa ‚Platte‘, ‚Deckel‘; ‚(Ton-)Schale‘, ‚Scherbe‘.[1]
+
+Tests in unterschiedlichen Wissensgebieten
+
+Allgemeines
+
+Verschiedene Bereiche der Technik und Wirtschaft verwenden abweichende Definitionen. So steht Test teilweise als Synonym für die Qualitäts- oder Endprüfung, Erprobung oder Messung. Die Standardisierungsorganisationen ISO und IEC definieren den Test im Sinne einer Ermittlung.[2] Die DIN 1319 verwendet hingegen die Bezeichnung Prüfen, bei dem festgestellt wird, wie weit ein Prüfobjekt die Forderungen erfüllt.[5] Ein Teil des Tests bzw. der Überprüfung kann auch ein Probebetrieb sein.[6]
+
+Tests im technischen Bereich
+
+In der Technik wird ein Test häufig auch als Verifikation verstanden, d. h. ob sich ein Testobjekt unter möglichst realistischen Bedingungen wie erwartet verhält. Je wirklichkeitsnäher die Testbedingungen sind, desto aussagekräftiger ist der Test. Nicht immer ist es möglich, einen Test unter Realbedingungen durchzuführen, so müssen die Bedingungen möglichst realistisch simuliert werden.[7] Während ein negativer Test einen Beweis für das Vorliegen von Fehlern liefert, kann die völlige Fehlerfreiheit durch einen positiven Test oft noch nicht bewiesen werden.[8]
+
+Tests zur Qualitätsprüfung
+
+In der disziplinübergreifenden Qualitätsprüfung ist darunter vor allem der statistische Test gemeint. Dabei wird mit Stichproben die Gültigkeit von Hypothesen überprüft.[2] In diesem Sinne wird Test z. B. bei technischen Produkten bzw. Prozessen,[9] bei der medizinischen Diagnostik[10] oder in der Wissenschaft[11] verwendet.
+
+Tests im medizinischen Bereich
+
+In der Diagnose können Menschen und Tiere, aber auch Pflanzen auf Krankheiten oder deren Erreger getestet werden, beispielsweise mit einem Bluttest, wie dem HIV-Test. Ein positives Ergebnis im Sinn des Tests bedeutet dann, dass die vermutete Ursache bestätigt wurde, etwa indem ein Krankheitserreger, z. B. ein Virus, nachgewiesen wurde.
+
+Einer der ersten Tests, der in zahlreichen Ländern als Selbsttests angeboten und verkauft wurde, ist der Schwangerschaftstest.
+
