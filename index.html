@@ -2,49 +2,118 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>CheerpJ test</title>
-    <script src="https://cjrtnc.leaningtech.com/4.1/loader.js"></script>
+    <title>CheerpJ FS Interact & Auto-Resize</title>
     <style>
-      body, html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow: hidden;
-      }
-      #display {
-        width: 100%;
-        height: 100%;
-      }
+      body { margin:0; padding:0; display:flex; flex-direction:column; height:100vh; }
+      #toolbar { padding:10px; background:#eee; display:flex; gap:8px; }
+      #displayContainer { flex:1; position:relative; }
+      #cheerpj_canvas { width:100%; height:100%; /* stretch to container */ }
+      #resourcesList { white-space: pre; font-family: monospace; overflow:auto; max-height:200px; }
     </style>
+    <script src="https://cjrtnc.leaningtech.com/4.1/loader.js"></script>
   </head>
   <body>
-    <div id="display"></div>
+    <div id="toolbar">
+      <!-- Upload file into VFS -->
+      <input type="file" id="uploadInput" />
+      <!-- Download a named file from VFS -->
+      <input type="text" id="downloadFilename" placeholder="file-to-download.txt" />
+      <button id="downloadBtn">Download</button>
+      <!-- List loaded resources -->
+      <button id="listResources">List Resources</button>
+    </div>
+
+    <div id="displayContainer">
+      <!-- CheerpJ will create a canvas or div here -->
+    </div>
+
+    <pre id="resourcesList"></pre>
+
     <script>
-      (async function () {
+      (async function(){
+        // 1) Initialize CheerpJ
         await cheerpjInit();
-        const display = cheerpjCreateDisplay(1080, 1000, 'display');
 
-        // Add event listener for window resize
-        window.addEventListener('resize', () => {
-          display.style.width = '100%';
-          display.style.height = '100%';
-        });
+        // 2) Create the display in our container; pick an initial size.
+        const container = document.getElementById('displayContainer');
+        function resizeDisplay(){
+          const w = container.clientWidth;
+          const h = container.clientHeight;
+          // CheerpJ provides cheerpjResizeDisplay in recent versions:
+          if(typeof cheerpjResizeDisplay === 'function'){
+            cheerpjResizeDisplay(w,h);
+          } else {
+            // fallback: recreate display
+            // note: a reload might be needed; try direct style adjust
+            const cvs = document.querySelector('#cheerpj_canvas');
+            if(cvs){
+              cvs.style.width  = w + 'px';
+              cvs.style.height = h + 'px';
+            }
+          }
+        }
+        // initial create
+        cheerpjCreateDisplay(container.clientWidth, container.clientHeight, container);
 
+        // 3) Run your JAR
         await cheerpjRunJar("/app/Kitsune-Kitty/SimpleVideoEditor.jar");
 
-        // Add file interaction commands
-        window.cjFileBlob = async (path) => {
-          const blob = await cheerpjInvokeMethod('java.io.File', 'toBlob', path);
-          return blob;
-        };
+        // 4) Auto-resize on window change
+        window.addEventListener('resize', resizeDisplay);
+        // also on displayContainer resize (if you use ResizeObserver)
+        new ResizeObserver(resizeDisplay).observe(container);
 
-        window.cheerpOSAddStringFile = async (path, content) => {
-          await cheerpjInvokeMethod('java.io.File', 'writeString', path, content);
-        };
+        // 5) Wire up Upload
+        document.getElementById('uploadInput').addEventListener('change', async (evt) => {
+          const file = evt.target.files[0];
+          if(!file) return;
+          const name = file.name;
+          const blob = await file.arrayBuffer(); // read raw bytes
+          // cheerpOSAddStringFile can accept raw string or base64;
+          // we’ll convert to a Uint8Array and then to binary string:
+          const bytes = new Uint8Array(blob);
+          let bin = '';
+          for(let i=0;i<bytes.length;++i){
+            bin += String.fromCharCode(bytes[i]);
+          }
+          // write into VFS
+          cheerpOSAddStringFile(name, bin);
+          alert(`Uploaded "${name}" into virtual FS.`);
+        });
 
-        window.cjGetRuntimeResources = () => {
-          return cheerpjGetRuntimeResources();
-        };
+        // 6) Wire up Download
+        document.getElementById('downloadBtn').addEventListener('click', async () => {
+          const fname = document.getElementById('downloadFilename').value.trim();
+          if(!fname){
+            alert('Enter a filename to download');
+            return;
+          }
+          try {
+            // cjFileBlob returns a Blob
+            const blob = await cjFileBlob(fname);
+            // trigger download
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fname;
+            a.click();
+            URL.revokeObjectURL(url);
+          } catch(e) {
+            alert(`Error reading "${fname}": ` + e);
+          }
+        });
+
+        // 7) Wire up List Resources
+        document.getElementById('listResources').addEventListener('click', () => {
+          const res = cjGetRuntimeResources(); // returns array of strings
+          document.getElementById('resourcesList').textContent =
+            res.length
+              ? res.join('\n')
+              : 'No resources loaded.';
+        });
+
+        // final initial resize
+        resizeDisplay();
       })();
     </script>
   </body>
